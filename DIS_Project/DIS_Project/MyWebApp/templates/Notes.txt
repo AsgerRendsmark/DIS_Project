@@ -1,0 +1,23 @@
+alles was in dem link brackets steht ist importiert und kopiert von einem youtube video
+https://www.youtube.com/watch?v=dam0GPOAvVI
+Wir importieren bootstrap als bibliothek, welche viele Tampletes hat und es einfacher macht 
+die Seite schøner zu gestalten 
+
+
+<title>{% %}</title>
+
+so benutzt man jinga in html das erlaubt einen python code in html zu schreiben
+
+BLOCKS 
+
+<title>{% block title%} Home {%{% endblock %}%}</title>
+
+
+## Place for stock prices 
+https://www.alphavantage.co/#page-top
+
+jadbof-pugbys-9qojSu
+
+
+# CARD VARIFICATION 
+# KARTE ANMELDEN 

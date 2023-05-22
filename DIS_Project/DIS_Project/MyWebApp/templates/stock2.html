@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block title %} Chaged {% endblock %} {% block
+content %}
+<form method="POST">
+    <div class="container">
+        <br />
+        <h1>Your Portfolio</h1>
+        <div class="input-group">
+            <div class="form-outline">
+                <input
+                    type="search"
+                    name="search"
+                    id="form1"
+                    class="form-control"
+                />
+                <label class="form-label" for="form1">Search for stocks</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Tag</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock[0] }}</td>
+                    <td>{{ stock[1] }}</td>
+
+                    <td>{{ stock[3] }}</td>
+                    <td>{{ stock[4] }}</td>
+                    <td>
+                        <button
+                            class="btn btn-secondary"
+                            type="submit"
+                            name="add"
+                            value="{{ stock[0]}}"
+                        >
+                            Add
+                        </button>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+{% endblock %}
