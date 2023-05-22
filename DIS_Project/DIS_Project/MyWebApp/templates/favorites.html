@@ -27,7 +27,6 @@
                     <th>Shares</th>
                     <th>Price</th>
                     <th>Total</th>
-                    <th>Tag</th>
                 </tr>
             </thead>
 
@@ -36,19 +35,17 @@
                 <tr>
                     <td>{{ stock[0] }}</td>
                     <td>{{ stock[1] }}</td>
-                    <td>{{ stock[2] }}</td>
+
+                    <td>
+                        <a
+                            href=""
+                            style="color: black; text-decoration: underline"
+                            >{{ stock[2] }}</a
+                        >
+                    </td>
+
                     <td>{{ stock[3] }}</td>
                     <td>{{ stock[4] }}</td>
-                    <td>
-                        <button
-                            class="btn btn-secondary"
-                            type="submit"
-                            name="add"
-                            value="{{ stock[5] }}"
-                        >
-                            Add
-                        </button>
-                    </td>
                 </tr>
 
                 {% endfor %}

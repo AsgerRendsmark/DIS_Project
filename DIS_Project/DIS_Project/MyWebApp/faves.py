@@ -1,25 +1,14 @@
-from flask import Blueprint, render_template
-import numpy as np 
-import pandas as pd
-from pandas_datareader import data as pdr 
-# Market Data 
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+
 from User import User
 from UserOperations import UserOperations
 import yfinance as yf
-import random
-# Graphing / Visualization 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-import plotly.graph_objs as go 
-from flask import Blueprint, render_template
-from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
-import yfinance as yf
-from datetime import datetime
 from yfinance import Ticker
+from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
 from views import views
 from app import db 
 from db_manager import db_manager
 import finnhub
-from flask import request
 import requests
 from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations

@@ -50,8 +50,9 @@ def sign_up():
         print("user", user)
         if user:
             flash('Email Already exists', category = 'error')
+            return redirect(url_for('auth.login'))
         else: 
-            UserOperations.add_user(email, first_name, password1)
+            UserOperations.add_user(email, first_name, generate_password_hash(password1, method = 'sha256'))
             flash('Account created', category = 'success')
             return redirect(url_for('views.home'))        
     return  render_template("signup.html", user = current_user)

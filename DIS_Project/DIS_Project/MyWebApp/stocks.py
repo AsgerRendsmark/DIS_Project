@@ -2,22 +2,14 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 import numpy as np 
 import pandas as pd
 from pandas_datareader import data as pdr 
-# Market Data 
 from UserOperations import UserOperations
 import yfinance as yf
-import random
-# Graphing / Visualization 
-import plotly.graph_objs as go 
-from flask import Blueprint, render_template
 from flask_login import login_user,  login_required , logout_user, current_user
-import yfinance as yf
-from datetime import datetime
 from yfinance import Ticker
 from views import views
 from app import db 
 from db_manager import db_manager
 import finnhub
-from flask import request
 import requests
 from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
@@ -35,9 +27,6 @@ finnhub_client = finnhub.Client(api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn4
 def get_stock(ticker):
     response = requests.get(f'https://finnhub.io/api/v1/quote?symbol={ticker}&token=chjka21r01qh5480hn3gchjka21r01qh5480hn40')
     return response.json()['c']  # 'c' corresponds to the current price
-
-
-
 
 def portfolio(): 
     # db_manager.insert_stock(fins, fins, 1, price, price)
@@ -112,16 +101,16 @@ def render_stocks_from_db():
 #         db_manager.add_favorites(current_user.id, symbol)
 #         return redirect(url_for('favorites.html'))
 
-# def get_all_stocks(): 
-#     stocks = []
-#     api_key = 'chjka21r01qh5480hn3gchjka21r01qh5480hn40'
-#     response = requests.get(f"https://finnhub.io/api/v1/stock/symbol?exchange=US&token={api_key}")
-#     data = response.json()
-#     more_data = data[0:100]
-#     for i in more_data:
-#         stocks.append(i['symbol'])
+def get_all_stocks(): 
+    stocks = []
+    api_key = 'chjka21r01qh5480hn3gchjka21r01qh5480hn40'
+    response = requests.get(f"https://finnhub.io/api/v1/stock/symbol?exchange=US&token={api_key}")
+    data = response.json()
+    more_data = data[0:100]
+    for i in more_data:
+        stocks.append(i['symbol'])
         
-#     return stocks
+    return stocks
 
 
 

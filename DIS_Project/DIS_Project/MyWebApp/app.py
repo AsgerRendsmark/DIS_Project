@@ -14,15 +14,15 @@ def create_app ():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     
-    conn = psycopg2.connect(
-        database="UID",
-        user = "janjohannsen",  
-        password = "password",
-        host = "localhost",
-            )
+    # conn = psycopg2.connect(
+    #     database="UID",
+    #     user = "janjohannsen",  
+    #     password = "password",
+    #     host = "localhost",
+    #         )
 
-    cur = conn.cursor()
-    app.config['UID_CONNECTION'] = conn    
+    # cur = conn.cursor()
+    # app.config['UID_CONNECTION'] = conn    
     
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
