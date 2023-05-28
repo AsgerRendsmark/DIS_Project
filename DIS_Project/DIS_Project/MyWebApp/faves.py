@@ -46,6 +46,16 @@ def remove_favorite(stock_id):
 @login_required
 def render_faves():
     favorites = db_manager.get_user_favorites(current_user.id)
+    cur = db_manager.get_cursor()
+    if "POST":
+        delete = request.form.get("Remove")
+        if delete: 
+            print("jan")
+            cur.execute("DELETE FROM favorites WHERE user_id = %s AND stock_id = %s", (current_user.id, delete))
+            db_manager.commit()
+            favorites = db_manager.get_user_favorites(current_user.id)
+            return render_template("favorites.html", user = current_user, favorites = favorites)
+        
     return render_template("favorites.html", user = current_user, favorites = favorites)
 
 

@@ -32,14 +32,18 @@ def create_app ():
     from auth import auth
     from stocks import stock
     from faves import faves
-    # from models import User, Notes
-
+    from stock_hist import hist
+    from profile import profile
+    from searchbar import search
     
-    
+    app.register_blueprint(search, url_prefix = '/')
     app.register_blueprint(views, url_prefix = '/')
     app.register_blueprint(auth, url_prefix = '/')
     app.register_blueprint(stock, url_prefix = '/')
+    app.register_blueprint(profile, url_prefix = '/')
+    app.register_blueprint(hist, url_prefix = '/')
     app.register_blueprint(faves, url_prefix = '/')
+
 
 
    

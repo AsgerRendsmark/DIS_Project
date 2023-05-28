@@ -34,7 +34,8 @@ class DatabaseManager:
                                 name VARCHAR(255),
                                 shares INTEGER,
                                 price NUMERIC(10,2),
-                                total NUMERIC(10,2))
+                                total NUMERIC(10,2),
+                                CONSTRAINT stocks1_id_unique UNIQUE (id))
                                 """)
             
     
@@ -47,15 +48,19 @@ class DatabaseManager:
                                 FOREIGN KEY (stock_id) REFERENCES stocks1 (stock_id))
                                                         """)
              
-            
-            self.cur.execute(""" CREATE TABLE IF NOT EXISTS 
-                                stock_history (id SERIAL PRIMARY KEY,
-                                stock_id INTEGER,
-                                name VARCHAR(255),
-                                growth NUMERIC(10,2),
-                                FOREIGN KEY (stock_id) REFERENCES stocks1 (id))
+            self.cur.execute("""CREATE TABLE IF NOT EXISTS stock_history (
+                                    stock_id INTEGER,   
+                                    name VARCHAR(255),
+                                    date VARCHAR(255),
+                                    open_price NUMERIC(10,2),
+                                    high_price NUMERIC(10,2),
+                                    low_price NUMERIC(10,2),
+                                    close_price NUMERIC(10,2),
+                                    volume BIGINT,
+                                    FOREIGN KEY (stock_id) REFERENCES stocks1 (id)
+                                )
                             """)
-            
+
             
             self.commit()
 
@@ -67,7 +72,10 @@ class DatabaseManager:
          self.conn.commit()
     def close(self):
         pass
-        
+    def open_connection(self):
+        return self.conn
+    def close_connection(self):
+        self.conn.close()
 
 
     def insert_stock(self, symbol, name, open, current_price, total):
@@ -110,11 +118,32 @@ class DatabaseManager:
     """, (user_id,))
         return self.cur.fetchall()
     
+    
+    
+    def get_stock_history(self, stock_id):
+        self.cur.execute("""
+        SELECT *
+        FROM stock_history
+        WHERE stock_id = %s
+    """, (stock_id,))
+        return self.cur.fetchall()
+    
     def get_ticker_symbols(self):
         self.cur.execute("SELECT symbol FROM stocks1")
-        symbols = self.cur.fetchall()
+        symbols = self.cur.fetchone()
         return symbols
         
+    def insert_stock_history(self, stock_id, name, date, open_price, high_price, low_price, close_price, volume):
+        self.cur.execute("""
+        INSERT INTO stock_history (stock_id, name, date, open_price, high_price, low_price, close_price, volume)
+        SELECT %s, %s, %s, %s, %s, %s, %s, %s
+        WHERE NOT EXISTS (
+            SELECT 1 FROM stock_history WHERE stock_id = %s AND date = %s
+        )
+    """, (stock_id, name, date, open_price, high_price, low_price, close_price, volume, stock_id, date))
+        self.conn.commit()
+    
+
 db_manager = DatabaseManager(
     db_name="UID",
     user = "janjohannsen",
@@ -123,3 +152,6 @@ db_manager = DatabaseManager(
 )
 
 DatabaseManager.setup_database(db_manager)
+
+
+ 

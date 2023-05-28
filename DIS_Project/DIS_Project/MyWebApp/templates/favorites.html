@@ -33,19 +33,32 @@
             <tbody>
                 {% for stock in favorites %}
                 <tr>
-                    <td>{{ stock[0] }}</td>
-                    <td>{{ stock[1] }}</td>
+                    <form action="/render_stock_from_db" method="post">
+                        <td>{{ stock[0] }}</td>
+                        <td>{{ stock[1] }}</td>
 
-                    <td>
-                        <a
-                            href=""
-                            style="color: black; text-decoration: underline"
-                            >{{ stock[2] }}</a
-                        >
-                    </td>
+                        <td>
+                            <a
+                                href=""
+                                style="color: black; text-decoration: underline"
+                                >{{ stock[2] }}</a
+                            >
+                        </td>
 
-                    <td>{{ stock[3] }}</td>
-                    <td>{{ stock[4] }}</td>
+                        <td>{{ stock[3] }}</td>
+                        <td>{{ stock[4] }}</td>
+
+                        <td>
+                            <button
+                                class="btn btn-secondary"
+                                type="submit"
+                                name="remove"
+                                value="{{ stock[5] }}"
+                            >
+                                Remove
+                            </button>
+                        </td>
+                    </form>
                 </tr>
 
                 {% endfor %}

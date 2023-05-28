@@ -55,7 +55,7 @@ class UserOperations:
         if stocks:
             return Stock(id=stocks["id"], symbol=stocks["symbol"], name=stocks["name"], shares=stocks["shares"], price=stocks["price"], total=stocks["total"])
     
-    @staticmethod
+
     def get_stock_by_symbol(symbol):
         cursor = db_manager.get_cursor()
         cursor.execute("SELECT * FROM stocks1 WHERE symbol = %s", (symbol,))
