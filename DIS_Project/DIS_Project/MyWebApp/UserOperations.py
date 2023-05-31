@@ -7,7 +7,6 @@ from flask_login import login_manager
 
 class UserOperations:
 
-
     def get_user_by_id(id):
         cursor = db_manager.get_cursor()
         cursor.execute("SELECT * FROM users WHERE id = %s", (id,))

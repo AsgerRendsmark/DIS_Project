@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras
-
+from settings import user, password, host, db_name
 class DatabaseManager: 
     def __init__(self, db_name, user, password, host):
         self.db_name = db_name
@@ -145,10 +145,10 @@ class DatabaseManager:
     
 
 db_manager = DatabaseManager(
-    db_name="UID",
-    user = "janjohannsen",
-    password = "password",
-    host = "localhost",
+    db_name = db_name,
+    user = user,
+    password = password,
+    host = host
 )
 
 DatabaseManager.setup_database(db_manager)

@@ -6,10 +6,7 @@ import yfinance as yf
 from yfinance import Ticker
 from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
 from views import views
-from app import db 
 from db_manager import db_manager
-import finnhub
-import requests
 from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
 
@@ -24,22 +21,7 @@ def remove_favorite(stock_id):
     db_manager.remove_favorite(current_user.id, stock_id)
     return render_template("stocks.html", user = current_user)
 
-# @faves.route("/faves", methods = ['GET', 'POST'])
-# @login_required
-# def view_favorites():
-#     user = UserOperations.get_user_by_id(current_user.id)
-#     favorites = db_manager.get_user_favorites(user.id)
 
-#     if request.method == 'POST':
-#         stock_id = UserOperations.get_stock_by_all()  # Get the stock ID from the clicked button
-#         db_manager.add_favorite(user.id, stock_id.id)
-
-#         # Update favorites after adding the new favorite
-#         favorites = db_manager.get_user_favorites(user.id)
-
-#     stocks = UserOperations.get_stock_by_all()
-#     return stock
-# print(view_favorites())
         
 
 @faves.route("/faves", methods = ['GET', 'POST'])
@@ -59,6 +41,17 @@ def render_faves():
     return render_template("favorites.html", user = current_user, favorites = favorites)
 
 
+
+
+
+
+
+
+
+################################################################################
+# Testing functions - Dummy functions to test the database - Ignore            #
+################################################################################
+
     # # Update favorites after adding the new favorite
     #     favorites = db_manager.get_user_favorites(user.id)
     #     stocks = UserOperations.get_stock()
@@ -72,17 +65,32 @@ def render_faves():
     #     db_manager.get_user_favorites(current_user.id)
 
 
+# @faves.route("/faves", methods = ['GET', 'POST'])
+# @login_required
+# def view_favorites():
+#     user = UserOperations.get_user_by_id(current_user.id)
+#     favorites = db_manager.get_user_favorites(user.id)
 
-def test(): 
-    u = User(1,"janjohannsenjan@gmail.com","jan","Jan")
-    stocks = UserOperations.get_stock_by_all()
-    user = UserOperations.get_user_by_id(u.id)
-    stock_ids = [stock.id for stock in stocks]  # This creates a list of all stock IDs
-    # user_ids = [user.id for stock in stocks] # This creates a list of all user IDs
-    whih = db_manager.add_favorite(u.id, stock_ids[0])
+#     if request.method == 'POST':
+#         stock_id = UserOperations.get_stock_by_all()  # Get the stock ID from the clicked button
+#         db_manager.add_favorite(user.id, stock_id.id)
+
+#         # Update favorites after adding the new favorite
+#         favorites = db_manager.get_user_favorites(user.id)
+
+#     stocks = UserOperations.get_stock_by_all()
+#     return stock
+# print(view_favorites())
+# def test(): 
+#     u = User(1,"janjohannsenjan@gmail.com","jan","Jan")
+#     stocks = UserOperations.get_stock_by_all()
+#     user = UserOperations.get_user_by_id(u.id)
+#     stock_ids = [stock.id for stock in stocks]  # This creates a list of all stock IDs
+#     # user_ids = [user.id for stock in stocks] # This creates a list of all user IDs
+#     whih = db_manager.add_favorite(u.id, stock_ids[0])
 
     
-    return whih
+#     return whih
 
 
 

@@ -1,20 +1,11 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-import numpy as np 
-import pandas as pd
-from pandas_datareader import data as pdr 
 from UserOperations import UserOperations
-import yfinance as yf
 from flask_login import login_user,  login_required , logout_user, current_user
-from yfinance import Ticker
-from views import views
-from app import db 
 from db_manager import db_manager
 import finnhub
 import requests
 from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
-from faves import faves
-import time
 
 stock = Blueprint('stock', __name__)
 
@@ -37,7 +28,6 @@ def render_stocks_from_db():
     if request.method == 'POST':
         stock_id = request.form.get("add")
         view_id = request.form.get("name")
-        print("jan")
         if stock_id: 
             db_manager.add_favorite(current_user.id, stock_id)
         elif view_id:
@@ -76,8 +66,6 @@ def remove_stocks_that_are_0():
         cur.execute("DELETE FROM stocks1 WHERE  price = 0")
         cur.execute("DELETE FROM stock_history WHERE stock_id = %s", (i[0],))
         db_manager.commit()
-        print("jeees")
-
     return render_stocks()
     
 # def test():

@@ -1,13 +1,7 @@
 # This is the watch list 
 
-import numpy as np 
-import pandas as pd
-from pandas_datareader import data as pdr 
-
-# Market Data 
 import yfinance as yf
 
-# Graphing / Visualization 
 import plotly.graph_objs as go 
 from flask import Blueprint, render_template
 from flask_login import login_user,  login_required , logout_user, current_user

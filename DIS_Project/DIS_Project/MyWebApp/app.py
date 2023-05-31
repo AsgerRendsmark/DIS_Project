@@ -6,23 +6,13 @@ from os import path
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
 from sqlalchemy import Table, Column, String, MetaData
-db = SQLAlchemy() 
 
 
 def create_app ():
     
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
-    
-    # conn = psycopg2.connect(
-    #     database="UID",
-    #     user = "janjohannsen",  
-    #     password = "password",
-    #     host = "localhost",
-    #         )
-
-    # cur = conn.cursor()
-    # app.config['UID_CONNECTION'] = conn    
+ 
     
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
