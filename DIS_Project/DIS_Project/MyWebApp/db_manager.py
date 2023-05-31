@@ -20,7 +20,12 @@ class DatabaseManager:
   
         
     def setup_database(self):
-
+            self.cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (db_name,))
+            database_exists = self.cur.fetchone()
+    
+            if not database_exists:
+                self.cur.execute("CREATE DATABASE %s" % db_name)
+            
             self.cur.execute("""CREATE TABLE IF NOT EXISTS 
                             users (id  INTEGER PRIMARY KEY, 
                             email VARCHAR(255), 
