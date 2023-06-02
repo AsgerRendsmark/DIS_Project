@@ -6,6 +6,7 @@ import finnhub
 import requests
 from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
+from stock_hist import hist
 
 stock = Blueprint('stock', __name__)
 
@@ -18,23 +19,39 @@ def render_stocks():
                     ORDER BY name ASC;""")
     
     stocks = cur.fetchall()
-    return render_template("profile.html", stocks=stocks, user=current_user)
+        
+
+    return render_template("stock2.html", stocks=stocks, user=current_user)
 
 
+###########
+# refactor#
+###########
 @stock.route('/stocks', methods=['GET', 'POST'])
 @login_required
 def render_stocks_from_db():
     cur = db_manager.get_cursor()
+    in_list = cur.execute("""select favorites.stock_id from favorites join stocks1 on stocks1.id=favorites.stock_id where favorites.user_id = %s""", (current_user.id,))
+    in_list = cur.fetchall()
     if request.method == 'POST':
         stock_id = request.form.get("add")
-        view_id = request.form.get("name")
+        view_id = request.form.get("symbol")
         if stock_id: 
             db_manager.add_favorite(current_user.id, stock_id)
+            if in_list:
+                for i in in_list:
+                    if i[0] == int(stock_id):
+                        flash("This stock is already in your favorites", category = 'error' )
+                        return render_stocks()
+            flash("This stock has been added to your favorites", category = 'success')
+            return render_stocks()
         elif view_id:
             cur.execute("SELECT  * FROM stocks1 WHERE symbol = %s", (view_id,))
-            stock_name = cur.fetchone()
+            stock_name = cur.fetchall()
             if stock_name:
-                return redirect(url_for('hist.process_stock', stock_history=stock_name))
+                
+                return redirect(url_for('hist.render_stock_history',  symbol=view_id))
+                
     
     return render_stocks()
 

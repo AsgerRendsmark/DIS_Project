@@ -1,11 +1,9 @@
 # from stocks import get_stock
 import psycopg2
 from flask import Flask 
-from flask_login import LoginManager, login_manager
+from flask_login import LoginManager, login_manager,login_required
 from os import path
-from flask_sqlalchemy import SQLAlchemy
-import sqlalchemy
-from sqlalchemy import Table, Column, String, MetaData
+
 
 
 def create_app ():
@@ -43,8 +41,10 @@ def create_app ():
     def load_user(user_id):
         return UserOperations.get_user_by_id(user_id)
 
+  
 
     return app
+
 
     
 

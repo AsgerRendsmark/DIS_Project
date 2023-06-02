@@ -25,6 +25,7 @@ content %}
         <f>{{ stock[3] }}</f>
         <p>Stock Value: ${{ stock[2] }}</p>
         <p>Stock Volume: {{ stock[4] }}</p>
+        <button class="btn btn-secondary">add</button>
         <!-- Add more stock information here -->
     </div>
     {% endfor %}
@@ -38,7 +39,15 @@ content %}
         grid-auto-rows: minmax(100px, auto);
         justify-items: center;
     }
-
+    .button {
+        margin-top: 1px;
+        margin-bottom: 1px;
+        color: white;
+        background-color: #90d5ec;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+    }
     .search-bar {
         width: 100%;
         padding: 12px 20px;

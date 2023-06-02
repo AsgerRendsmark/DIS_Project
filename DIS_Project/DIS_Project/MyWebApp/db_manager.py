@@ -57,10 +57,10 @@ class DatabaseManager:
                                     stock_id INTEGER,   
                                     name VARCHAR(255),
                                     date VARCHAR(255),
-                                    open_price NUMERIC(10,2),
-                                    high_price NUMERIC(10,2),
-                                    low_price NUMERIC(10,2),
-                                    close_price NUMERIC(10,2),
+                                    open_price FLOAT,
+                                    high_price FLOAT,
+                                    low_price FLOAT,
+                                    close_price FLOAT,
                                     volume BIGINT,
                                     FOREIGN KEY (stock_id) REFERENCES stocks1 (id)
                                 )
@@ -114,6 +114,12 @@ class DatabaseManager:
         """, (user_id, stock_id, user_id, stock_id))
         self.conn.commit()
    
+    def remove_favorite(self, user_id, stock_id):
+        self.cur.execute("""
+        DELETE FROM favorites WHERE user_id = %s AND stock_id = %s
+    """, (user_id, stock_id))
+        self.conn.commit()  
+        
     def get_user_favorites(self, user_id):
         self.cur.execute("""
         SELECT s.*
@@ -138,14 +144,14 @@ class DatabaseManager:
         symbols = self.cur.fetchone()
         return symbols
         
-    def insert_stock_history(self, stock_id, name, date, open_price, high_price, low_price, close_price, volume):
+    def insert_stock_history(self, open_price, high_price, low_price, close_price, volume):
         self.cur.execute("""
         INSERT INTO stock_history (stock_id, name, date, open_price, high_price, low_price, close_price, volume)
         SELECT %s, %s, %s, %s, %s, %s, %s, %s
         WHERE NOT EXISTS (
             SELECT 1 FROM stock_history WHERE stock_id = %s AND date = %s
         )
-    """, (stock_id, name, date, open_price, high_price, low_price, close_price, volume, stock_id, date))
+    """, ( open_price, high_price, low_price, close_price, volume))
         self.conn.commit()
     
 

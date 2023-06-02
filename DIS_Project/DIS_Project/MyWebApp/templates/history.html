@@ -1,46 +1,59 @@
 {% extends 'base.html' %} {% block title %} History {% endblock %} {% block
 content %}
 <form method="POST">
-    <div class="container">
-        <br />
-        <h1>Your Portfolio</h1>
-        <div class="input-group">
-            <div class="form-outline">
-                <input
-                    type="search"
-                    name="search"
-                    id="form1"
-                    class="form-control"
-                />
-                <label class="form-label" for="form1">Search for stocks</label>
-            </div>
-        </div>
-    </div>
+    <h1>Historical Data of the Stock {{ stock_history.symbol }}</h1>
     <br />
+    <h5>
+        On this page, you can see various historical data points of the stock:
+        <strong>{{ stock_history.symbol }}</strong> over the course of the last
+        30 days.
+    </h5>
     <br />
-    <br />
-    <h1>History</h1>
-    <text> Here i want to post some information about a stock History</text>
     <div>
         <table class="table">
-            <thead>
+            <tbody>
                 <tr>
                     <th>Symbol</th>
-                    <th>Name</th>
-
-                    <th>Price</th>
-                    <th>Total</th>
-                    <th>Tag</th>
+                    <th>Dates</th>
+                    <th>Opens</th>
+                    <th>Closes</th>
+                    <th>Highs</th>
+                    <th>Lows</th>
+                    <th>Volumes</th>
                 </tr>
-            </thead>
-
-            <tbody>
-                {% for stock in stock_history %}
                 <tr>
-                    <td>{{stock}}</td>
+                    <td>{{ stock_history.symbol }}</td>
+                    <td class="with-lines">
+                        {% for date in stock_history.date %}
+                        <p>{{ date }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="with-lines">
+                        {% for open_price in stock_history.opens %}
+                        <p>{{ open_price }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="with-lines">
+                        {% for close_price in stock_history.closes %}
+                        <p>{{ close_price }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="with-lines">
+                        {% for high_price in stock_history.highs %}
+                        <p>{{ high_price }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="with-lines">
+                        {% for low_price in stock_history.lows %}
+                        <p>{{ low_price }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="with-lines">
+                        {% for volume in stock_history.vols %}
+                        <p>{{ volume }}</p>
+                        {% endfor %}
+                    </td>
                 </tr>
-
-                {% endfor %}
             </tbody>
         </table>
     </div>

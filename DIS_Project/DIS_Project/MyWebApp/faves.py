@@ -15,11 +15,11 @@ login_manager = LoginManager()
 
 def add_favorite(stock_id):
     db_manager.add_favorite(current_user.id, stock_id)
-    return render_template("stocks.html", user = current_user)
+    
 
 def remove_favorite(stock_id):
     db_manager.remove_favorite(current_user.id, stock_id)
-    return render_template("stocks.html", user = current_user)
+    
 
 
         
@@ -29,28 +29,24 @@ def remove_favorite(stock_id):
 def render_faves():
     favorites = db_manager.get_user_favorites(current_user.id)
     cur = db_manager.get_cursor()
+    faves = cur.execute("""select stocks1.id
+                        from favorites join stocks1 on 
+                        stocks1.id=favorites.stock_id """)
+    
+    faves = cur.fetchall()
+    fave = []
+    for i in faves:
+        fave.append(i[0])
     if "POST":
-        delete = request.form.get("Remove")
+
+        delete = request.form.get("remove")
         if delete: 
-            print("jan")
-            cur.execute("DELETE FROM favorites WHERE user_id = %s AND stock_id = %s", (current_user.id, delete))
-            db_manager.commit()
-            favorites = db_manager.get_user_favorites(current_user.id)
-            return render_template("favorites.html", user = current_user, favorites = favorites)
-        
+            remove_favorite(delete)
+            flash("This stock has been removed from your favorites", category = 'success')
+            return redirect(url_for('faves.render_faves'))
+
     return render_template("favorites.html", user = current_user, favorites = favorites)
 
-
-
-
-
-
-
-
-
-################################################################################
-# Testing functions - Dummy functions to test the database - Ignore            #
-################################################################################
 
     # # Update favorites after adding the new favorite
     #     favorites = db_manager.get_user_favorites(user.id)

@@ -3,6 +3,8 @@
     <div class="container">
         <br />
         <h1>Your Portfolio</h1>
+        <br />
+
         <div class="input-group">
             <div class="form-outline">
                 <input
@@ -15,9 +17,14 @@
             </div>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
+</br>    
+</br>    
+    <h5>
+        This is your personal Watch list, where you can see the current prices
+        for your most favorite stocks. Or you can remove them, if they are not
+        in your field of interest anymore.
+    </h5>
+    </br>    
     <div>
         <table class="table">
             <thead>
@@ -34,14 +41,14 @@
                 {% for stock in favorites %}
                 <tr>
                     <form action="/render_stock_from_db" method="post">
-                        <td>{{ stock[0] }}</td>
                         <td>{{ stock[1] }}</td>
+                        <td>{{ stock[2] }}</td>
 
                         <td>
                             <a
                                 href=""
                                 style="color: black; text-decoration: underline"
-                                >{{ stock[2] }}</a
+                                >{{ stock[1] }}</a
                             >
                         </td>
 
@@ -53,7 +60,7 @@
                                 class="btn btn-secondary"
                                 type="submit"
                                 name="remove"
-                                value="{{ stock[5] }}"
+                                value="{{ stock[0] }}"
                             >
                                 Remove
                             </button>

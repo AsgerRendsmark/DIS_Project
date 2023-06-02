@@ -19,6 +19,7 @@ def login():
         password = request.form.get('password')
         user = UserOperations.get_user_by_email(email=email)
         if user :
+                
                 if check_password_hash(user.password, password):
                     flash('Logged in succesfully', category = 'success')
                     login_user(user)
