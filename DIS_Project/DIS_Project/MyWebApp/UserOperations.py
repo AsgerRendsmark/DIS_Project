@@ -34,7 +34,9 @@ class UserOperations:
     def add_user(email, first_name, password):
         cursor = db_manager.get_cursor()
         cursor.execute("INSERT INTO users (email, first_name, password) VALUES (%s, %s, %s)", (email, first_name, generate_password_hash(password, method='sha256')))
+        cursor.fetchone()
         db_manager.commit()
+        
     
     @staticmethod    
     def check_password(user, password):

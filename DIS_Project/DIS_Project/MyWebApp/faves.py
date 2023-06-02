@@ -21,9 +21,6 @@ def remove_favorite(stock_id):
     db_manager.remove_favorite(current_user.id, stock_id)
     
 
-
-        
-
 @faves.route("/faves", methods = ['GET', 'POST'])
 @login_required
 def render_faves():
