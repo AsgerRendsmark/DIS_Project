@@ -4,7 +4,7 @@ from flask_login import login_user,  login_required , logout_user, current_user
 from db_manager import db_manager
 import finnhub
 import requests
-from yahoofinance import BalanceSheet,HistoricalPrices
+#from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
 from stock_hist import hist
 

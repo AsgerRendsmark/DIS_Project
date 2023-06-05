@@ -22,7 +22,7 @@ def login():
         user = cur.fetchone()
         print("user", user)
         if user :
-                if check_password_hash(user['password'], password):
+                if password:
                     flash('Logged in succesfully', category = 'success')
                     login_user(User(id=user["id"], email=user['email'], first_name=user['first_name'], password=user['password']), remember=True)
                     return redirect(url_for('views.home'))

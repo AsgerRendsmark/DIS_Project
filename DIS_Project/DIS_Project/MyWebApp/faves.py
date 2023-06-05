@@ -7,7 +7,7 @@ from yfinance import Ticker
 from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
 from views import views
 from db_manager import db_manager
-from yahoofinance import BalanceSheet,HistoricalPrices
+#from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
 
 faves  = Blueprint('faves',__name__)
