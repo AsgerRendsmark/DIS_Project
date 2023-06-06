@@ -26,12 +26,6 @@ def update_db():
     result = put_into_db()
     return result
 
-# @stock.route('/stock_info')
-# def render_info():
-#     cur = db_manager.get_cursor()
-#     cur.execute("""SELECT * from stock_details""")
-#     stocks = cur.fetchall()
-#     return render_template("info.html", stocks=stocks, user=current_user)
 ###########
 # refactor#
 ###########
@@ -45,6 +39,8 @@ def render_stocks_from_db():
         stock_id = request.form.get("add")
         view_id = request.form.get("symbol")
         info_id = request.form.get("name")
+        search_id = request.form.get("search")
+        search_id = search_id.lower()
         if stock_id: 
             db_manager.add_favorite(current_user.id, stock_id)
             if in_list:
@@ -55,11 +51,10 @@ def render_stocks_from_db():
             flash("This stock has been added to your favorites", category = 'success')
             return render_stocks()
         elif view_id:
-            print("view_id", view_id)
             cur.execute("SELECT  * FROM stocks1 WHERE symbol = %s", (view_id,))
             stock_name = cur.fetchall()
             if stock_name:
-                
+                print("check")
                 return redirect(url_for('hist.render_stock_history',  symbol=view_id))
         elif info_id:
             
@@ -69,6 +64,17 @@ def render_stocks_from_db():
             if stock_name:
               
                 return redirect(url_for('info.render_info_from_db',  name = info_id))
+        elif search_id:
+            search_id = search_id.lower()
+            cur.execute("SELECT * FROM stocks1 WHERE LOWER(symbol) LIKE %s", ('%' + search_id + '%',))
+            matching_stocks = cur.fetchall()
+            
+            if matching_stocks:
+                return redirect(url_for('hist.render_stock_history',  symbol = search_id))
+            else:
+                flash('Stock not found.')
+
+
     
     return render_stocks()
 

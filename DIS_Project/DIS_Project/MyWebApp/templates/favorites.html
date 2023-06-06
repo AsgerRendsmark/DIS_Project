@@ -1,11 +1,11 @@
-{% extends 'base.html' %} {%block title%}WatchList{%endblock%} {%block content%}
+{% extends 'base.html' %} {% block title %} WatchList {% endblock %} {% block
+content %}
 <form method="POST">
-    <div class="container">
+    <div class="content">
         <br />
         <h1>Your Portfolio</h1>
         <br />
-
-        <div class="input-group">
+        <div class="input-group search-card card">
             <div class="form-outline">
                 <input
                     type="search"
@@ -16,61 +16,93 @@
                 <label class="form-label" for="form1">Search for stocks</label>
             </div>
         </div>
-    </div>
-</br>    
-</br>    
-    <h5>
-        This is your personal Watch list, where you can see the current prices
-        for your most favorite stocks. Or you can remove them, if they are not
-        in your field of interest anymore.
-    </h5>
-    </br>    
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>Shares</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for stock in favorites %}
-                <tr>
-                    <form action="/render_stock_from_db" method="post">
-                        <td>{{ stock[1] }}</td>
-                        <td>{{ stock[2] }}</td>
-
-                        <td>
-                            <a
-                                href=""
-                                style="color: black; text-decoration: underline"
-                                >{{ stock[1] }}</a
-                            >
-                        </td>
-
-                        <td>{{ stock[3] }}</td>
-                        <td>{{ stock[4] }}</td>
-
-                        <td>
-                            <button
-                                class="btn btn-secondary"
-                                type="submit"
-                                name="remove"
-                                value="{{ stock[0] }}"
-                            >
-                                Remove
-                            </button>
-                        </td>
-                    </form>
-                </tr>
-
-                {% endfor %}
-            </tbody>
-        </table>
+        <br />
+        <h5>
+            This is your personal Watch list, where you can see the current
+            prices for your most favorite stocks. Or you can remove them, if
+            they are not in your field of interest anymore.
+        </h5>
+        <br />
+        <div class="table-card card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Name</th>
+                        <th>Shares</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in favorites %}
+                    <tr>
+                        <form action="/render_stock_from_db" method="post">
+                            <td>{{ stock[1] }}</td>
+                            <td>{{ stock[2] }}</td>
+                            <td>
+                                <a
+                                    href=""
+                                    style="
+                                        color: black;
+                                        text-decoration: underline;
+                                    "
+                                    >{{ stock[1] }}</a
+                                >
+                            </td>
+                            <td>{{ stock[3] }}</td>
+                            <td>{{ stock[4] }}</td>
+                            <td>
+                                <button
+                                    class="btn btn-secondary"
+                                    type="submit"
+                                    name="remove"
+                                    value="{{ stock[0] }}"
+                                >
+                                    Remove
+                                </button>
+                            </td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </form>
+
+<style>
+    .search-card {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .table-card {
+        overflow-x: auto; /* Add scrolling to the table if it doesn't fit in the card */
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse; /* Remove space between table cells */
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+    .btn {
+        background-color: #4285f4; /* Google's blue color */
+        color: white;
+    }
+
+    .btn:hover {
+        background-color: #2a75f3;
+    }
+</style>
 {% endblock %}

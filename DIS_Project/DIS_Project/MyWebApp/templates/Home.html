@@ -1,49 +1,99 @@
-{% extends 'base.html' %} {%block title%}Stock{%endblock%} {%block content%}
+{% extends 'base.html' %} {% block title %}Stock{% endblock %} {% block content
+%}
 <form method="POST">
     <div class="header">
-        <h2 class="logo">Lil Stockzz</h2>
-
+        <div class="logo">Lil Stockzz</div>
         <ul class="nav">
             <li><a href="faves">Watch List</a></li>
             <li><a href="stocks">My Stocks</a></li>
             <li><a href="">About</a></li>
         </ul>
     </div>
-    <div> 
-    <style>
-        .header {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        .contact {
-            max-width: 1000px;
-            margin: 0 auto;
-            margin-bottom: 20px;
-        }
-        .header {
-            padding: 0 70px;
-            display: flex;
-            align-content: center;
-            justify-content: space-between;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+    <div class="content">
+        <div class="winner-cards">
+            {% if winners %}
+            <h2>Top 5 Favorite Stocks</h2>
+            {% for winner in winners %}
+            <div class="card">
+                <h3>{{ winner[0] }}</h3>
+                <p>Number of favorites: {{ winner[1] }}</p>
+            </div>
+            {% endfor %} {% else %}
+            <p>No favorite stocks at the moment.</p>
+            {% endif %}
+        </div>
 
-        .nav {
-            display: flex;
-            align-content: center;
-            justify-content: center;
-            gap: 60px;
-            list-style-type: none;
-        }
-
-        .nav li a {
-            text-decoration: none;
-            color: black;
-            font-size: 1.2rem;
-        }
-    </style>
-    {%endblock%}
+        <div class="news-cards">
+            {% if news %}
+            <h2>Recent News</h2>
+            {% for news_item in news %}
+            <div class="card">
+                <h3>
+                    <a href="{{ news_item.url }}">{{ news_item.headline }}</a>
+                </h3>
+                <p>{{ news_item.summary }}</p>
+            </div>
+            {% endfor %} {% else %}
+            <p>No news at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
 </form>
+
+<style>
+    body {
+        background-color: #fff;
+        color: #333;
+        font-family: Arial, sans-serif;
+    }
+
+    .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .nav {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .nav li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    .nav li a {
+        text-decoration: none;
+        color: #333;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .card {
+        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+            0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+
+    .winner-cards,
+    .news-cards {
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}

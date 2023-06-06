@@ -23,6 +23,7 @@ def create_app ():
     from stock_hist import hist
     from stock_info import info
     from searchbar import search
+    from sort_on_sector import cat
     
     app.register_blueprint(search, url_prefix = '/')
     app.register_blueprint(views, url_prefix = '/')
@@ -32,6 +33,7 @@ def create_app ():
     app.register_blueprint(hist, url_prefix = '/')
     app.register_blueprint(faves, url_prefix = '/')
     app.register_blueprint(info, url_prefix = '/')
+    app.register_blueprint(cat, url_prefix = '/')
 
 
 

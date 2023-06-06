@@ -21,7 +21,8 @@ def searched():
     form = searchForm()
     cur = db_manager.get_cursor()
     stock= cur.execute("SELECT * FROM stocks1")
-    stock = cur.fetchone()
+    stock = cur.fetchall()
+    print("stock")
     if request.method == 'POST':
         if form.validate_on_submit():
             search = form.search.data

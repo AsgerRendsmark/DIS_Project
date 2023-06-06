@@ -74,7 +74,7 @@ def to_database(symbol):
     low_prices = get_low_prices(symbol)
     volumes = get_volume(symbol)
     dates = get_date(symbol) 
-    
+    name = yf.Ticker(symbol).info['longName']
     # Assuming the lists are all the same length and in the correct order by date
     for i in range(len(open_prices)):
         cur.execute("INSERT INTO stock_history (stock_id, open_price, close_price, high_price, low_price, volume) SELECT id, %s, %s, %s, %s, %s FROM stocks1 WHERE symbol = %s", (open_prices[i], close_prices[i], high_prices[i], low_prices[i], volumes[i], symbol))
@@ -87,7 +87,8 @@ def to_database(symbol):
         'closes': close_prices,
         'highs': high_prices,
         'lows': low_prices,
-        'vols': volumes
+        'vols': volumes,
+        "name": name
     }
 
     db_manager.commit()
@@ -97,6 +98,6 @@ def to_database(symbol):
 @login_required
 def render_stock_history(symbol):
     stock_history = to_database(symbol)
-    print(stock_history)
+    print("W")
     return render_template("history.html", user = current_user, stock_history = stock_history)
 

@@ -37,7 +37,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.signup'))
+    return redirect(url_for('auth.sign_up'))
 
 
 # Get and Post are HTTP mehtods that get and retrieve data 

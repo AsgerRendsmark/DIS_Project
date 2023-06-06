@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %}Your Portfolio{% endblock %} {% block
+content %}
+<form method="POST">
+    <div class="container">
+        <br />
+        <h1>Your Portfolio</h1>
+        <div class="input-group">
+            <div class="form-outline">
+                <input
+                    type="search"
+                    name="search"
+                    id="form1"
+                    class="form-control"
+                />
+                <label class="form-label" for="form1">Search for stocks</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <table class="table">
+        <tbody>
+            {% for sector, stocks in sector_stocks.items() %}
+            <tr>
+                <th scope="row">{{ sector }}</th>
+                <td>
+                    <ul>
+                        {% for stock in stocks %}
+                        <li>{{ stock }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% endblock %}
