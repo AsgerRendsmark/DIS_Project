@@ -43,9 +43,18 @@ content %}
                             {{ stock[1] }}
                         </button>
                     </td>
-                    <td>{{ stock[1]}}</td>
+                    <td>
+                        <button
+                            class="btn btn-secondary"
+                            type="submit"
+                            name="name"
+                            value="{{ stock[2]}}"
+                        >
+                            {{ stock[2] }}
+                        </button>
+                    </td>
 
-                    <td>{{ stock[2] }}</td>
+                    <td>{{ stock[3] }}</td>
                     <td>{{ stock[4] }}</td>
 
                     <td>
@@ -65,4 +74,5 @@ content %}
         </table>
     </div>
 </form>
+
 {% endblock %}

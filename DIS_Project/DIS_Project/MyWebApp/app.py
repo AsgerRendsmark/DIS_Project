@@ -21,7 +21,7 @@ def create_app ():
     from stocks import stock
     from faves import faves
     from stock_hist import hist
-
+    from stock_info import info
     from searchbar import search
     
     app.register_blueprint(search, url_prefix = '/')
@@ -31,6 +31,7 @@ def create_app ():
     # app.register_blueprint(profile, url_prefix = '/')
     app.register_blueprint(hist, url_prefix = '/')
     app.register_blueprint(faves, url_prefix = '/')
+    app.register_blueprint(info, url_prefix = '/')
 
 
 

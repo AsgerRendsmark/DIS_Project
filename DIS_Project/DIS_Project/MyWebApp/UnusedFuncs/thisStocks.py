@@ -105,3 +105,35 @@ def lst_of_stocks():
 
 
 
+# def test():
+#     cur = db_manager.get_cursor()
+#     total = cur.execute("SELECT total FROM stocks1")
+#     s = cur.fetchall()
+#     ticker = yf.Ticker("AAPL")
+
+#     ss = finnhub_client.quote('AAPL')
+
+#     return ss.get("t")*100
+    
+# print(test())
+# def portfolio(): 
+#     # db_manager.insert_stock(fins, fins, 1, price, price)
+#     pass 
+
+# def prep_portfolio():
+#     fins = ['IFNNY', 'CUBE', 'FCOB', 'MBC', 'SEYMF', 'CTKB', 'EATR', 'MNKD', 'HWKZ.U', 'ICPT', 'TOVX', 'VMTG', 'DOCRF', 'PBDM', 'MCFT', 'ANCTF', 'TOACU', 'PTMC', 'BITCF', 'BCV.PRA', 'FTCI', 'AKZOY', 'SPMYY', 'BUDZ', 'DKSC', 'XMLV', 'RAIN', 'TSGTF', 'XRT', 'CLAD', 'VEII', 'GIKLY', 'HTIA', 'WRDEF', 'ALLY', 'CNBB', 'FSBC', 'CALF', 'CHZQ', 'SGGSF', 'ETCK', 'DGIV', 'GLNLF', 'GRYCF', 'RDN', 'EFA', 'MMTIF', 'BHVN', 'BCNHF', 'GWSFF', 'VISM', 'CNP', 'POL', 'KEYUF', 'ABOS', 'GOSY', 'CCWF', 'AMAL', 'GHIXW', 'CCOJY', 'CDJM', 'OABI', 'IBHD', 'NBCT', 'SMWFF', 'TSVT', 'CHMI', 'DHBUF', 'TGRR', 'JNDAF', 'NLVVF', 'WEBNF', 'LFLYW', 'QTUM', 'NXSGD', 'CRC', 'PH', 'PPHPW', 'GQRE', 'PEO', 'HYHY', 'SNAXW', 'COCSF', 'JGGCU', 'AVPI', 'PSGR', 'GBERY', 'ICLN', 'TBMC', 'GWRS', 'INSE', 'OCEAW', 'OOAG', 'MCN', 'CBAF', 'XEL', 'CKALF', 'HFBL', 'SLKEF', 'MALG']
+    
+#     stocks = []
+#     # for fins in fin:
+#     try:
+#         current_price = get_stock(fins)
+#         stock = Ticker(fins)
+#         stock_name = stock.info['longName']
+#         open = stock.info['open']
+#         close = stock.info['previousClose']
+#         high = stock.info['dayHigh']
+#         low = stock.info['dayLow']
+#         stocks.append((fins, stock_name, open, current_price, high))
+        
+#     except Exception as e:
+#         print(f"Error occurred with stock {fins}: {e}")  

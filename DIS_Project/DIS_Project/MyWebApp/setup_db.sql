@@ -18,6 +18,19 @@ close_price NUMERIC(10,2) CHECK (close_price >= 0),
 CONSTRAINT stocks1_id_unique UNIQUE (id),
 CONSTRAINT stocks1_symbol_unique UNIQUE (symbol));
 
+CREATE TABLE IF NOT EXISTS stock_details (
+id SERIAL PRIMARY KEY,
+symbol VARCHAR(255),
+stock_id INTEGER,
+buisness_description1 Text,
+sector VARCHAR(255),
+currency VARCHAR(255),
+ceo VARCHAR(255),
+employees INTEGER,
+exchange VARCHAR(255),
+FOREIGN KEY (stock_id) REFERENCES stocks1 (id));
+
+ALTET TABLE stock_details ADD COLUMN name VARCHAR(255);
 
 CREATE TABLE IF NOT EXISTS favorites (
 id INTEGER PRIMARY KEY,

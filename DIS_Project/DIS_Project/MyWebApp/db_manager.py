@@ -140,7 +140,7 @@ class DatabaseManager:
         """
         values = (symbol, name, open_price, current_price, high_price, close_price, low_price)
         self.cur.execute(query, values)
-        db_manager.commit()
+
     
     
     def get_stock_history(self, stock_id):
@@ -155,7 +155,18 @@ class DatabaseManager:
         self.cur.execute("SELECT symbol FROM stocks1")
         symbols = self.cur.fetchone()
         return symbols
-        
+    
+    
+    def update_stock_details(self, symbol, currency, sector, buisness_description1):
+        self.cur.execute(
+        """
+        UPDATE stock_details
+        SET symbol = %s, currency = %s, sector = %s, buisness_description1 = %s
+        """,
+        (symbol, currency, sector, buisness_description1)
+    )
+        self.conn.commit()
+            
     def insert_stock_history(self, open_price, high_price, low_price, close_price, volume):
         self.cur.execute("""
         INSERT INTO stock_history (stock_id, name, date, open_price, high_price, low_price, close_price, volume)

@@ -6,11 +6,12 @@ import requests
 #from yahoofinance import BalanceSheet,HistoricalPrices
 from UserOperations import UserOperations
 from stock_hist import hist
-
+from prep_stocks import put_into_db
 stock = Blueprint('stock', __name__)
 
 # finnhub_client = finnhub.Client(api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn40")
 def render_stocks():
+    
     cur = db_manager.get_cursor()
     cur.execute("""SELECT id, 
                     symbol, name, price, open_price, high_price, low_price, total
@@ -20,8 +21,17 @@ def render_stocks():
     stocks = cur.fetchall()
         
     return render_template("stock2.html", stocks=stocks, user=current_user)
+@stock.route('/update-db')
+def update_db():
+    result = put_into_db()
+    return result
 
-
+# @stock.route('/stock_info')
+# def render_info():
+#     cur = db_manager.get_cursor()
+#     cur.execute("""SELECT * from stock_details""")
+#     stocks = cur.fetchall()
+#     return render_template("info.html", stocks=stocks, user=current_user)
 ###########
 # refactor#
 ###########
@@ -34,6 +44,7 @@ def render_stocks_from_db():
     if request.method == 'POST':
         stock_id = request.form.get("add")
         view_id = request.form.get("symbol")
+        info_id = request.form.get("name")
         if stock_id: 
             db_manager.add_favorite(current_user.id, stock_id)
             if in_list:
@@ -44,12 +55,20 @@ def render_stocks_from_db():
             flash("This stock has been added to your favorites", category = 'success')
             return render_stocks()
         elif view_id:
+            print("view_id", view_id)
             cur.execute("SELECT  * FROM stocks1 WHERE symbol = %s", (view_id,))
             stock_name = cur.fetchall()
             if stock_name:
                 
                 return redirect(url_for('hist.render_stock_history',  symbol=view_id))
-                
+        elif info_id:
+            
+            cur.execute("SELECT  name FROM stocks1 WHERE name = %s", (info_id,))
+            stock_name = cur.fetchall()
+
+            if stock_name:
+              
+                return redirect(url_for('info.render_info_from_db',  name = info_id))
     
     return render_stocks()
 
@@ -83,38 +102,7 @@ def remove_stocks_that_are_0():
         db_manager.commit()
     return render_stocks()
     
-# def test():
-#     cur = db_manager.get_cursor()
-#     total = cur.execute("SELECT total FROM stocks1")
-#     s = cur.fetchall()
-#     ticker = yf.Ticker("AAPL")
-
-#     ss = finnhub_client.quote('AAPL')
-
-#     return ss.get("t")*100
-    
-# print(test())
-# def portfolio(): 
-#     # db_manager.insert_stock(fins, fins, 1, price, price)
-#     pass 
-
-# def prep_portfolio():
-#     fins = ['IFNNY', 'CUBE', 'FCOB', 'MBC', 'SEYMF', 'CTKB', 'EATR', 'MNKD', 'HWKZ.U', 'ICPT', 'TOVX', 'VMTG', 'DOCRF', 'PBDM', 'MCFT', 'ANCTF', 'TOACU', 'PTMC', 'BITCF', 'BCV.PRA', 'FTCI', 'AKZOY', 'SPMYY', 'BUDZ', 'DKSC', 'XMLV', 'RAIN', 'TSGTF', 'XRT', 'CLAD', 'VEII', 'GIKLY', 'HTIA', 'WRDEF', 'ALLY', 'CNBB', 'FSBC', 'CALF', 'CHZQ', 'SGGSF', 'ETCK', 'DGIV', 'GLNLF', 'GRYCF', 'RDN', 'EFA', 'MMTIF', 'BHVN', 'BCNHF', 'GWSFF', 'VISM', 'CNP', 'POL', 'KEYUF', 'ABOS', 'GOSY', 'CCWF', 'AMAL', 'GHIXW', 'CCOJY', 'CDJM', 'OABI', 'IBHD', 'NBCT', 'SMWFF', 'TSVT', 'CHMI', 'DHBUF', 'TGRR', 'JNDAF', 'NLVVF', 'WEBNF', 'LFLYW', 'QTUM', 'NXSGD', 'CRC', 'PH', 'PPHPW', 'GQRE', 'PEO', 'HYHY', 'SNAXW', 'COCSF', 'JGGCU', 'AVPI', 'PSGR', 'GBERY', 'ICLN', 'TBMC', 'GWRS', 'INSE', 'OCEAW', 'OOAG', 'MCN', 'CBAF', 'XEL', 'CKALF', 'HFBL', 'SLKEF', 'MALG']
-    
-#     stocks = []
-#     # for fins in fin:
-#     try:
-#         current_price = get_stock(fins)
-#         stock = Ticker(fins)
-#         stock_name = stock.info['longName']
-#         open = stock.info['open']
-#         close = stock.info['previousClose']
-#         high = stock.info['dayHigh']
-#         low = stock.info['dayLow']
-#         stocks.append((fins, stock_name, open, current_price, high))
-        
-#     except Exception as e:
-#         print(f"Error occurred with stock {fins}: {e}")    
+  
 
 
 

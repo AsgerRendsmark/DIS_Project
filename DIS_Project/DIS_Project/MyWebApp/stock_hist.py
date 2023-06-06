@@ -98,5 +98,5 @@ def to_database(symbol):
 def render_stock_history(symbol):
     stock_history = to_database(symbol)
     print(stock_history)
-    return render_template("history.html", user = current_user, stock_history = stock_history, symbol = symbol)
+    return render_template("history.html", user = current_user, stock_history = stock_history)
 

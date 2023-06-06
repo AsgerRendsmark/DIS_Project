@@ -19,8 +19,10 @@ import concurrent.futures
 import random
 from yfinance import Ticker
 
+
 finnhub_client = finnhub.Client(api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn40")
 app = Flask(__name__)
+
 
 # @app.route("/stocks")
 def get_stock_symbols_from_csv():
@@ -99,7 +101,6 @@ def get_stock_changepercent(ticker):
     price = stock['dp']
     return price
 
-
 def info(ticker):
     price = get_stock_price(ticker)
     name = get_stock_name(ticker)
@@ -111,23 +112,32 @@ def info(ticker):
     change_percent = get_stock_changepercent(ticker)
     return price, name, high, low, open_price, close, change, change_percent
 
-
+    
 def put_into_db():
     stock = trim_list_random()
-    try:
-        for i in stock:
-            price, name, high, low, open_price, close, change, change_percent = info(i)
-            db_manager.insert_stock_without_id(i, name, open_price, price, high, close, low)
-            db_manager.commit()
-            print(i, name, open_price, price, high, close, low)
-            print("inserted into db")
-            time.sleep(1)
-    except Exception as e:
-        return e
+    cur = db_manager.get_cursor()
+    cur.execute("select symbol from stocks1")
+    existing_symbols = set()
+    rows = cur.fetchall()
+    for row in rows:
+        existing_symbols.add(row[0])
+        try:
+            for i in stock:
+                if i in existing_symbols:
+                    print(f"{i} already in db")
+                    continue
+                else:
+                    price, name, high, low, open_price, close, change, change_percent = info(i)
+                    db_manager.insert_stock_without_id(i, name, open_price, price, high, close, low)
+                    db_manager.commit()
+                    print(f"{i}, {name}, {open_price}, {price}, {high}, {close}, {low} inserted into db")
+                    time.sleep(1)
+        except Exception as e:
+            return f"error inserting {i} into db due to error {e}"
+
     return "done"
-        
-print("starting")
-print(put_into_db())
+# print("starting")
+# print(put_into_db())
 
     
 
