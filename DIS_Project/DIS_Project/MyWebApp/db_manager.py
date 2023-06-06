@@ -132,6 +132,15 @@ class DatabaseManager:
     """, (user_id,))
         return self.cur.fetchall()
     
+    def insert_stock_without_id(self,symbol, name, open_price, current_price, high_price, close_price, low_price):
+
+        query = """
+            INSERT INTO stocks1 (symbol, name, open_price, price, high_price, close_price, low_price)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """
+        values = (symbol, name, open_price, current_price, high_price, close_price, low_price)
+        self.cur.execute(query, values)
+        db_manager.commit()
     
     
     def get_stock_history(self, stock_id):

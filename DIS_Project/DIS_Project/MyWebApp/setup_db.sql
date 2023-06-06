@@ -11,7 +11,13 @@ name VARCHAR(255),
 shares INTEGER,
 price NUMERIC(10,2),
 total NUMERIC(10,2),
-CONSTRAINT stocks1_id_unique UNIQUE (id));
+open_price NUMERIC(10,2) CHECK (open_price >= 0),
+high_price NUMERIC(10,2) CHECK (high_price >= 0),
+low_price NUMERIC(10,2) CHECK (low_price >= 0),
+close_price NUMERIC(10,2) CHECK (close_price >= 0),
+CONSTRAINT stocks1_id_unique UNIQUE (id),
+CONSTRAINT stocks1_symbol_unique UNIQUE (symbol));
+
 
 CREATE TABLE IF NOT EXISTS favorites (
 id INTEGER PRIMARY KEY,

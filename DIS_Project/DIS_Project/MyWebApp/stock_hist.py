@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, session, request, flash, redirect,
 import yfinance as yf
 from flask_login import login_user,  login_required , logout_user, current_user
 from db_manager import db_manager
-import concurrent.futures
+
 from datetime import datetime
-from time import sleep
+
 
 hist  = Blueprint('hist',__name__)
 
@@ -49,7 +49,6 @@ def get_date(symbol):
     return hist
 
 
-print(get_date("AAPL"))
 def get_low_prices(symbol):
     hist = fetch_stock_history(symbol)
     hist = hist.to_dict()

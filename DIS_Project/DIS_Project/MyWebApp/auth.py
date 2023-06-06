@@ -20,7 +20,6 @@ def login():
         password = request.form.get('password')
         user = cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
         user = cur.fetchone()
-        print("user", user)
         if user :
                 if password:
                     flash('Logged in succesfully', category = 'success')
@@ -38,7 +37,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.signup'))
 
 
 # Get and Post are HTTP mehtods that get and retrieve data 
