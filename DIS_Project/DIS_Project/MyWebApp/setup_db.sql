@@ -50,3 +50,12 @@ low_price FLOAT,
 close_price FLOAT,
 volume BIGINT,
 FOREIGN KEY (stock_id) REFERENCES stocks1 (id));
+
+CREATE TABLE IF NOT EXISTS stock_news (
+id SERIAL PRIMARY KEY,
+headline VARCHAR(255),
+sum Text,
+url VARCHAR(255),
+date VARCHAR(255)
+);
+

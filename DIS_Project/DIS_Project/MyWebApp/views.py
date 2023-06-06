@@ -49,8 +49,25 @@ def get_news():
 
 def print_news():
     news_items = get_news()
-    news_list = []
-    for i in news_items:
-        news_list.append({'headline': i['headline'], 'summary': i['summary'], 'url': i['url']})
+    cur = db_manager.get_cursor()
     
-    return news_list[:5]
+    # create list of tuples
+    news_list = [(i['headline'], i['summary'], i['url']) for i in news_items]
+
+    # Use executemany to insert all rows at once
+    cur.executemany("""INSERT INTO stock_news (headline, sum, url) VALUES (%s, %s, %s)""", news_list)
+
+
+    db_manager.commit()
+
+    fetch_news = cur.execute("""SELECT * FROM stock_news""")
+    fetch_news = cur.fetchall()
+
+    # Close the connection after you're done using it, not inside the loop
+    db_manager.close()
+    return fetch_news[:5]
+
+
+        
+    
+
