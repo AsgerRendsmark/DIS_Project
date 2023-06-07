@@ -20,7 +20,7 @@ def home1():
 
 def winners():
     cur = db_manager.get_cursor()
-    cur.execute("""SELECT stocks1.symbol, COUNT(DISTINCT favorites.user_id) as favorite_count
+    cur.execute("""SELECT stocks1.name, COUNT(DISTINCT favorites.user_id) as favorite_count
                     FROM stocks1 
                     LEFT JOIN favorites 
                     ON stocks1.id = favorites.stock_id

@@ -29,11 +29,12 @@ def get_sector():
 
 def get_stocks_by_sector(sector):
     cur = db_manager.get_cursor()
-    cur.execute("""SELECT stocks1.name FROM stocks1 JOIN stock_details 
+    cur.execute("""SELECT stocks1.name, stocks1.symbol FROM stocks1 JOIN stock_details 
                 ON stocks1.symbol = stock_details.symbol WHERE stock_details.sector = %s 
                 ORDER BY stocks1.name ASC;""", (sector,))
     stocks = cur.fetchall()
-    return [stock[0] for stock in stocks]
+    
+    return stocks
 
 
 @cat.route('/sector', methods=['GET', 'POST'])
