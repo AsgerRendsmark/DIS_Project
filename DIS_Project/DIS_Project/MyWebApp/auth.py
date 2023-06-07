@@ -54,10 +54,13 @@ def sign_up():
             flash('Email Already exists', category = 'error')
             return redirect(url_for('auth.login'))
         else: 
-            cur.execute("""INSERT INTO users (email, first_name, password) VALUES (%s, %s, %s)""", (email, first_name, generate_password_hash(password1, method='sha256')))
+            password_hash = generate_password_hash(password1, method='sha256')
+            cur.execute("""INSERT INTO users (email, first_name, password) VALUES (%s, %s, %s)""", (email, first_name, password_hash))
             db_manager.commit()
+            cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
+            user = cur.fetchone()
             flash('Account created', category = 'success')
-            
+            login_user(User(id=user["id"], email=user['email'], first_name=user['first_name'], password=user['password']), remember=True)
             return redirect(url_for('views.home'))        
 
     return  render_template("signup.html", user = current_user)
