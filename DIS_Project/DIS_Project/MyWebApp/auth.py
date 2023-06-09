@@ -1,14 +1,12 @@
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
 # from models import User, Notes
-from flask import current_app   
-import psycopg2.extras 
-from UserOperations import UserOperations
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_manager import db_manager
 from User import User
 auth = Blueprint('auth',__name__)
-login_manager = LoginManager()
+
 
 # Sets all the user interactions 
 @auth.route("/login", methods = ['GET', 'POST'])
@@ -48,21 +46,26 @@ def sign_up():
         email = request.form.get('email')
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+
         user = cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
         print("user", user)
         if user:
             flash('Email Already exists', category = 'error')
             return redirect(url_for('auth.login'))
-        else: 
-            password_hash = generate_password_hash(password1, method='sha256')
-            cur.execute("""INSERT INTO users (email, first_name, password) VALUES (%s, %s, %s)""", (email, first_name, password_hash))
-            db_manager.commit()
-            cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
-            user = cur.fetchone()
-            flash('Account created', category = 'success')
-            login_user(User(id=user["id"], email=user['email'], first_name=user['first_name'], password=user['password']), remember=True)
-            return redirect(url_for('views.home'))        
-
+        else:
+            if password1 == password2:
+                password_hash = generate_password_hash(password1, method='sha256')
+                cur.execute("""INSERT INTO users (email, first_name, password) VALUES (%s, %s, %s)""", (email, first_name, password_hash))
+                db_manager.commit()
+                cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
+                user = cur.fetchone()
+                flash('Account created', category = 'success')
+                login_user(User(id=user["id"], email=user['email'], first_name=user['first_name'], password=user['password']), remember=True)
+                return redirect(url_for('views.home'))        
+            else :
+                flash('Passwords do not match', category = 'error')
+                return redirect(url_for('auth.sign_up'))
     return  render_template("signup.html", user = current_user)
 
 

@@ -6,7 +6,7 @@ from db_manager import db_manager
 import finnhub
 import requests
 #from yahoofinance import BalanceSheet,HistoricalPrices
-from UserOperations import UserOperations
+
 from stock_hist import hist
 import pandas as pd
 import websocket 

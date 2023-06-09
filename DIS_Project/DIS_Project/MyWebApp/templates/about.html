@@ -1,22 +1,20 @@
 {% extends 'base.html' %} {% block title %} History {% endblock %} {% block
 content %}
 <div class="container">
-    <div class="header">
-        <h1>{{ name }}</h1>
-        <h5>Information about the company</h5>
-    </div>
-    <div class="card">
-        <div class="card-header">
-            <h3>Company Overview</h3>
+    <form method="POST" class="form-card card">
+        <div class="header"></div>
+        <div class="card">
+            <div class="card-header">
+                <h3>About us</h3>
+            </div>
+            <text> dhaISLUDHASKjdnöaksJNDÖ-AKJns </text>
         </div>
-        <div class="card-body">
-            <p>{{ stock_info[0][3] }}</p>
+        <div class="chart-container">
+            <canvas id="stock-chart"></canvas>
         </div>
-    </div>
-    <div class="chart-container">
-        <canvas id="stock-chart"></canvas>
-    </div>
+    </form>
 </div>
+
 {% endblock %} .container { max-width: 800px; margin: 0 auto; padding: 20px; }
 .header { text-align: center; margin-bottom: 20px; } .card { background-color:
 #f8f9fa; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin

@@ -20,25 +20,23 @@ CONSTRAINT stocks1_symbol_unique UNIQUE (symbol));
 
 CREATE TABLE IF NOT EXISTS stock_details (
 id SERIAL PRIMARY KEY,
-symbol VARCHAR(255),
+symbol VARCHAR(255) UNIQUE,
 name VARCHAR(255),
 stock_id INTEGER,
 buisness_description1 Text,
 sector VARCHAR(255),
 currency VARCHAR(255),
-ceo VARCHAR(255),
-employees INTEGER,
-exchange VARCHAR(255),
 FOREIGN KEY (stock_id) REFERENCES stocks1 (id));
 
 
 CREATE TABLE IF NOT EXISTS favorites (
-id INTEGER PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 user_id INTEGER,
 stock_id INTEGER,
 CONSTRAINT unique_user_stock UNIQUE (user_id, stock_id),
 FOREIGN KEY (user_id) REFERENCES users (id),
 FOREIGN KEY (stock_id) REFERENCES stocks1 (id));
+
 
 CREATE TABLE IF NOT EXISTS stock_history (
 stock_id INTEGER,   
@@ -58,4 +56,5 @@ sum Text,
 url VARCHAR(255),
 date VARCHAR(255)
 );
+
 

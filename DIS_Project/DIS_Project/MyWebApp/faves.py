@@ -8,7 +8,7 @@ from flask_login import login_user,  login_required , logout_user, current_user,
 from views import views
 from db_manager import db_manager
 #from yahoofinance import BalanceSheet,HistoricalPrices
-from UserOperations import UserOperations
+
 
 faves  = Blueprint('faves',__name__)
 login_manager = LoginManager()

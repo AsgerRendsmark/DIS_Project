@@ -4,19 +4,13 @@ from flask_login import login_user,  login_required , logout_user, current_user
 from db_manager import db_manager
 
 from datetime import datetime
-
-
 hist  = Blueprint('hist',__name__)
 
-
-# @hist.route("/history", methods = ['GET', 'POST'])
-# @login_required
 def fetch_stock_history(symbol):
     ticker = yf.Ticker(symbol)
     end_date = datetime.now().strftime('%Y-%m-%d')
     hist = ticker.history(period="1mo")
     return hist
-
 
 def get_closing_prices(symbol):
     hist = fetch_stock_history(symbol)

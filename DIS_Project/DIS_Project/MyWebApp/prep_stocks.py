@@ -1,146 +1,53 @@
 import yfinance as yf
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-from UserOperations import UserOperations
-from flask_login import login_user,  login_required , logout_user, current_user
-from db_manager import db_manager
-import finnhub
-import requests
-#from yahoofinance import BalanceSheet,HistoricalPrices
-from UserOperations import UserOperations
-from stock_hist import hist
-import pandas as pd
-import websocket 
-from flask import Flask, jsonify
-import _thread
 import time
-import rel
 import csv
-import concurrent.futures
 import random
-from yfinance import Ticker
+from db_manager import db_manager
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-
-finnhub_client = finnhub.Client(api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn40")
-app = Flask(__name__)
-
-
-# @app.route("/stocks")
 def get_stock_symbols_from_csv():
     with open('stocks.csv', 'r') as f:
-
         reader = csv.reader(f)
-
         next(reader, None)
-        listofstocks = []
-        for row in reader :
-            ticker = row[0]
-            listofstocks.append(ticker)
-        return listofstocks
+        stock_symbols = [row[0] for row in reader]
+        return stock_symbols
     
 def trim_list_random():
-    l = get_stock_symbols_from_csv()
-    new_list = []
-    for i in l:
-        if '^' in i : 
-            continue
-        else:
-            new_list.append(i)
-        
-    new_list = random.sample(new_list, 100)
-    
-    return new_list
+    stock_symbols = get_stock_symbols_from_csv()
+    random_symbols = random.sample(stock_symbols, 100)
+    return random_symbols
 
-def get_stock(ticker):
-    response = requests.get(f'https://finnhub.io/api/v1/quote?symbol={ticker}&token=chjka21r01qh5480hn3gchjka21r01qh5480hn40')
-    return response.json()
+def get_stock_info(ticker):
+    stock = yf.Ticker(ticker)
+    info = stock.info
+    high_price = info.get('dayHigh')
+    low_price = info.get('dayLow')
+    open_price = info.get('regularMarketOpen')
+    close_price = info.get('previousClose')
+    long_name = info.get('longName')
+    twoHundredDayAverage=info.get('twoHundredDayAverage')
+    return high_price, low_price, open_price, long_name, twoHundredDayAverage,close_price
 
-
-def get_stock_price(ticker):
-    stock = get_stock(ticker)
-    price = stock['c']
-    return price
-
-def get_stock_name(ticker):
-    l = get_stock_symbols_from_csv()
-    for i in l:
-        if i == ticker:
-            ticker = Ticker(i)
-            stock = ticker.info
-            
-    name = stock['longName']
-    return name
-
-def get_stock_highprice(ticker):
-    stock = get_stock(ticker)
-    price = stock['h']
-    return price    
-def get_stock_lowprice(ticker):
-    stock = get_stock(ticker)
-    price = stock['l']
-    return price    
-
-def get_stock_openprice(ticker):
-    stock = get_stock(ticker)
-    price = stock['o']
-    return price    
-
-def get_stock_closeprice(ticker):
-    stock = get_stock(ticker)
-    price = stock['pc']
-    return price
-
-
-
-def get_stock_change(ticker):
-    stock = get_stock(ticker)
-    price = stock['c']
-    return price
-
-def get_stock_changepercent(ticker):    
-    stock = get_stock(ticker)
-    price = stock['dp']
-    return price
-
-def info(ticker):
-    price = get_stock_price(ticker)
-    name = get_stock_name(ticker)
-    high = get_stock_highprice(ticker)
-    low = get_stock_lowprice(ticker)
-    open_price = get_stock_openprice(ticker)
-    close = get_stock_closeprice(ticker)
-    change = get_stock_change(ticker)
-    change_percent = get_stock_changepercent(ticker)
-    return price, name, high, low, open_price, close, change, change_percent
-
-    
 def put_into_db():
-    stock = trim_list_random()
-    cur = db_manager.get_cursor()
-    cur.execute("select symbol from stocks1")
+    print("Starting put_into_db function...")
+    stocks = trim_list_random()
     existing_symbols = set()
-    rows = cur.fetchall()
-    for row in rows:
-        existing_symbols.add(row[0])
+    def process_stock(stock):   
         try:
-            for i in stock:
-                if i in existing_symbols:
-                    print(f"{i} already in db")
-                    continue
-                else:
-                    price, name, high, low, open_price, close, change, change_percent = info(i)
-                    db_manager.insert_stock_without_id(i, name, open_price, price, high, close, low)
-                    db_manager.commit()
-                    print(f"{i}, {name}, {open_price}, {price}, {high}, {close}, {low} inserted into db")
-                    time.sleep(1)
+            high_price, low_price, open_price, long_name, twoHundredDayAverage,close_price = get_stock_info(stock)
+            if stock not in existing_symbols:
+                db_manager.insert_stock_without_id(stock, long_name, open_price, close_price, high_price, low_price, twoHundredDayAverage)
+                db_manager.commit()
+                existing_symbols.add(stock)
+                print(f"{stock}, {long_name}, {open_price}, {close_price}, {high_price}, {low_price}, {twoHundredDayAverage} inserted into db")
+                time.sleep(1)
         except Exception as e:
-            return f"error inserting {i} into db due to error {e}"
+            print(f"Error inserting {stock} into db: {e}")
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = [executor.submit(process_stock, stock) for stock in stocks]
+        for future in as_completed(futures):
+            future.result()
 
-    return "done"
-# print("starting")
-# print(put_into_db())
-
-    
-
-
+    print("All stocks inserted into db")
 
 

@@ -1,21 +1,21 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_user,  login_required , logout_user, current_user
 from db_manager import db_manager
+
 views = Blueprint('views',__name__)
 
 # Das hier ist die hauptseite, Der Route node des Programs
 # Quasi ist das die frontseite der Homepage
 @views.route('/home')
 def home():
-    winners_list = make_winners()
-    news_list = print_news()
-    return render_template("home.html", user = current_user, winners=winners_list, news=news_list)
+    news = print_news()
+    winners = make_winners()
+    return render_template("home.html", user = current_user, winners=winners, news=news)
+
 
 @views.route('/')
 def home1():
-    winners_list = make_winners()
-    news_list = print_news()
-    return render_template("home.html", user = current_user, winners=winners_list, news=news_list)
+    return redirect(url_for('views.home'))
 
 
 def winners():
@@ -64,7 +64,7 @@ def print_news():
     fetch_news = cur.fetchall()
 
     # Close the connection after you're done using it, not inside the loop
-    db_manager.close()
+
     return fetch_news[:5]
 
 
