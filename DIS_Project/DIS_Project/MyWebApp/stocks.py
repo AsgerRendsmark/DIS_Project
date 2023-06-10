@@ -79,36 +79,3 @@ def render_stocks_from_db():
     return render_stocks()
 
 
-@stock.route('/stocks/update', methods=['GET', 'POST'])
-def update_stocks(): 
-    cur = db_manager.get_cursor()
-    cur.execute("SELECT symbol FROM stocks1")
-    tickers = cur.fetchall()
-
-    for ticker in tickers: 
-        response = requests.get(f'https://finnhub.io/api/v1/quote?symbol={ticker[0]}&token=your_token_here')
-        stock_data= response.json() 
-        stock_data = stock_data.get('c')
-
-        if stock_data is not None:
-            cur.execute("UPDATE stocks1 SET price = %s WHERE symbol = %s", (stock_data, ticker[0]))
-            db_manager.commit()
-
-    return render_stocks()
-
-
-@stock.route('/stocks/delete', methods=['GET', 'POST'])
-def remove_stocks_that_are_0(): 
-    cur = db_manager.get_cursor()
-    cur.execute("SELECT id FROM stocks1 WHERE price =0")
-    ids = cur.fetchall()
-    for i in ids:
-        cur.execute("DELETE FROM stocks1 WHERE  price = 0")
-        cur.execute("DELETE FROM stock_history WHERE stock_id = %s", (i[0],))
-        db_manager.commit()
-    return render_stocks()
-    
-  
-
-
-

@@ -14,7 +14,6 @@ def login():
     if request.method == 'POST':
         cur = db_manager.get_cursor()
         email = request.form.get('email')
-        id = request.form.get('id')
         password = request.form.get('password')
         user = cur.execute("""SELECT * FROM users WHERE email = %s """, (email, ))
         user = cur.fetchone()

@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS stocks1 (
 id SERIAL PRIMARY KEY,
 symbol VARCHAR(255),
 name VARCHAR(255),
-shares INTEGER,
 price NUMERIC(10,2),
 total NUMERIC(10,2),
 open_price NUMERIC(10,2) CHECK (open_price >= 0),
@@ -57,4 +56,11 @@ url VARCHAR(255),
 date VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS ratings (
+id SERIAL PRIMARY KEY,
+user_id INTEGER,
+stock_id INTEGER,
+rating Text,
+FOREIGN KEY (user_id) REFERENCES users (id),
+FOREIGN KEY (stock_id) REFERENCES stocks1 (id));
 

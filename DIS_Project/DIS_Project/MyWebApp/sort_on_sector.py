@@ -3,21 +3,9 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 
 from flask_login import login_user,  login_required , logout_user, current_user
 from db_manager import db_manager
-import finnhub
-import requests
+
 #from yahoofinance import BalanceSheet,HistoricalPrices
-from UserOperations import UserOperations
-from stock_hist import hist
-import pandas as pd
-import websocket 
-from flask import Flask, jsonify
-import _thread
-import time
-import rel
-import csv
-import concurrent.futures
-import random
-from yfinance import Ticker
+
 
 cat = Blueprint('cat', __name__)
 
@@ -48,4 +36,24 @@ def render_sector():
     return render_template('categories.html',user = current_user, sectors=sectors, sector_stocks=sector_stocks)
 
 
+def sort_stocks_by_price():
+    cur = db_manager.get_cursor()
+    cur.execute("""SELECT  stocks1.symbol, stocks1.price FROM stocks1 JOIN stock_details 
+                ON stocks1.symbol = stock_details.symbol ORDER BY stocks1.price DESC;""")
+    stocks = cur.fetchall()
+    return stocks
 
+
+# @cat.route('/price', methods=['GET', 'POST'])
+# @login_required
+# def render_price():
+#     prices = sort_stocks_by_price()
+#     price_stocks = {}
+#     for price in prices:
+#         stocks = get_stocks_by_sector(price)
+#         price = price_stocks(price)
+        
+#     # return render_template('price.html',user = current_user, price_stocks=price_stocks)
+    
+
+# print(render_price())

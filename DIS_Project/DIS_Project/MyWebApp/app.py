@@ -12,6 +12,7 @@ from UserOperations import UserOperations
 from prep_stocks import put_into_db
 from stock_info import put_info_into_db
 from threading import Thread
+from ratings import rate 
 import time
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
@@ -28,6 +29,7 @@ app.register_blueprint(info, url_prefix='/')
 app.register_blueprint(cat, url_prefix='/')
 app.register_blueprint(about, url_prefix='/')
 app.register_blueprint(hist, url_prefix='/')
+app.register_blueprint(rate, url_prefix='/')
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -42,9 +44,9 @@ def update_database():
     try:
         print("Updating database")
         put_into_db()
+        print("Please wait, Database is still being updated...")
         put_info_into_db()
-        print("Database updated")
-        print("Running on http://127.0.0.1:5000") 
+        print("Database updated! Close this terminal window and run the app using flask run")
     except Exception as e:
         print(f"Error updating database: {e}")
 

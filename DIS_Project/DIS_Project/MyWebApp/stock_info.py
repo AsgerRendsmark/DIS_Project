@@ -6,7 +6,7 @@ from db_manager import db_manager
 from UserOperations import UserOperations
 import pandas as pd
 from yfinance import Ticker
-
+from ratings import rate, fetch_posts, post_ratings
 info = Blueprint('info', __name__)
 
 def get_stock_info(ticker):
@@ -51,6 +51,13 @@ def render_info_from_db(name):
                              where stocks1.name= %s """, (name,))
     stock_info = cur.fetchall()
     
+
+    if request.method == 'POST':
+      
+        submits = request.form.get("sub")
+        if submits:
+            print("check")
+
 
     return render_template("info.html", user=current_user, stock_info=stock_info,name = name)
 
