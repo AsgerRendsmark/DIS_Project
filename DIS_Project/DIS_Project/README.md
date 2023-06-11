@@ -3,10 +3,16 @@
 ## To run the script
 
     Enter the folder mywebapp from the terminal
-    Run the command python/python3 app.py
-    Wait for the instruction in the command line
-    Run flask run
+    Run the command: $ python/python3 app.py
+    Wait for the instruction to close the terminal in the command line
+    Run the command: $ flask run
     Use the APP!
+
+    Note:
+        The database is automatically created using the command $ psql < create_db.sql
+        The database will not be created if the command does not work. Should this for
+        whatever reason be a problem, then manually create a database called UID and design it
+        in accordance to the sql-code in setup_db.sql
 
 ## Functionalities
 
@@ -38,7 +44,7 @@
     buttons:
     Search bar (Only stock symbols)
     Shows added stocks
-    Remove stocks (Buggy, you can only remove the first stock)
+    Remove stocks
 
 ## Company Profile
 

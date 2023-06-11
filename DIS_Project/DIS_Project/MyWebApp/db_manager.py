@@ -24,7 +24,6 @@ class DatabaseManager:
         os.system("psql -d UID < setup_db.sql")
     def get_cursor(self):
         return self.cur
-    
     def commit(self):
          self.conn.commit()
     def close(self):

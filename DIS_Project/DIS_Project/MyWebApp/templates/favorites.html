@@ -13,7 +13,7 @@ content %}
                     id="form1"
                     class="form-control"
                 />
-                <label class="form-label" for="form1">Search for stocks</label>
+                <label class="form-label" for="form1">Search for stocks to be removed</label>
             </div>
         </div>
         <br />
@@ -37,7 +37,7 @@ content %}
                 <tbody>
                     {% for stock in favorites %}
                     <tr>
-                        <form action="/render_stock_from_db" method="post">
+                        <form action="/faves" method="post">
                             <td>{{ stock[1] }}</td>
                             <td>{{ stock[2] }}</td>
 

@@ -9,10 +9,10 @@
 </head>
 <form method="POST">
     <div class="header">
-        <div class="logo">Lil Stockzz</div>
+        <div class="logo" style="font-size: 1.75em;">Home</div>
         <ul class="nav">
             <li><a href="faves">Watch List</a></li>
-            <li><a href="stocks">My Stocks</a></li>
+            <li><a href="stocks">Stocks</a></li>
             <li><a href="about">About</a></li>
         </ul>
     </div>
@@ -27,7 +27,7 @@
                 <div class="card">
                     <i class="material-icons">star_border</i>
                     <h3>{{ winner[0] }}</h3>
-                    <p>Number of favorites: {{ winner[1] }}</p>
+                    <p>Number users who follow this stock: {{ winner[1] }}</p>
                 </div>
                 {% endfor %} {% else %}
                 <p>No favorite stocks at the moment.</p>
