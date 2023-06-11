@@ -1,2 +1,0 @@
-
-favorites table need a name row
