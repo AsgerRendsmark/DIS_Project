@@ -1,7 +1,3 @@
-
-from MyWebApp.app import create_app
-from MyWebApp.db_manager import DatabaseManager
-from getpass import getpass
 from MyWebApp.prep_stocks import put_into_db
 import time 
 from MyWebApp.stock_info import put_info_into_db
