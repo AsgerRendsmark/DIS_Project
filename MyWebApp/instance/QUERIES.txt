@@ -1,0 +1,48 @@
+REMOVE DUPLICATE
+
+DELETE FROM favorites                                                    
+ WHERE (user_id, stock_id) IN (                                                    
+    SELECT user_id, stock_id                                                        
+    FROM (                                                                            
+        SELECT user_id, stock_id                                                        
+        FROM favorites                                                                  
+        GROUP BY user_id, stock_id                                                      
+        HAVING COUNT(*) > 1                                                           
+        ) as duplicates                                                               
+        );
+DELETE FROM favorites  
+                                                
+WHERE (user_id, stock_id) IN (SELECT user_id, stock_id                                                       
+ FROM (                                                                            SELECT user_id, stock_id                                                        FROM favorites                                                                  GROUP BY user_id, stock_id                                                      HAVING COUNT(*) > 1                                                           ) as duplicates                                                               );
+
+
+
+DELETE FROM stocks1                                                    
+                                                                                                                  
+        GROUP BY id                                                      
+        HAVING COUNT(*) > 1                                                           
+         as duplicates                                                               
+        
+DELETE FROM favorites  
+                                                
+WHERE (user_id, stock_id) IN (SELECT user_id, stock_id                                                        FROM (                                                                            SELECT user_id, stock_id                                                        FROM favorites                                                                  GROUP BY user_id, stock_id                                                      HAVING COUNT(*) > 1                                                           ) as duplicates                                                               );
+DELETE FROM stock_history                                                    
+ WHERE (stock_id) IN (                                                    
+    SELECT  stock_id                                                        
+    FROM (                                                                            
+        SELECT stock_id                                                        
+        FROM stock_history                                                                  
+        GROUP BY stock_id                                                      
+        HAVING COUNT(*) > 1                                                           
+        ) as duplicates                                                               
+        );
+
+    
+
+    1) INSERT INTO product VALUES ('1100', 'PC', 'C');
+       INSERT INTO pc VALUES ('1100', 3.2, 1024, 180, 2499);
+    2) delete from pc where hd < 100
+    3) delete from product where type = 'laptop' and maker not in (select maker from product where type = 'printer');
+    4) update product set maker= 'A' where maker = 'B';
+    5) update pc set ram = ram*2 , hd=hd+60;
+    6) update laptop set screen = screen+1, price=price-10 where model in(select model from product where type = 'laptop');

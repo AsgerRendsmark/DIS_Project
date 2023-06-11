@@ -1,0 +1,8 @@
+flask 
+python-dotenv
+psycopg2-binary
+pip install -U Flask-WTF
+
+
+
+What don 
