@@ -1,10 +1,6 @@
-import yfinance as yf
-from flask import Blueprint, render_template, request, flash, redirect, url_for
-
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask import Blueprint, render_template
+from flask_login import login_required, current_user
 from db_manager import db_manager
-
-#from yahoofinance import BalanceSheet,HistoricalPrices
 
 
 cat = Blueprint('cat', __name__)
@@ -42,18 +38,3 @@ def sort_stocks_by_price():
                 ON stocks1.symbol = stock_details.symbol ORDER BY stocks1.price DESC;""")
     stocks = cur.fetchall()
     return stocks
-
-
-# @cat.route('/price', methods=['GET', 'POST'])
-# @login_required
-# def render_price():
-#     prices = sort_stocks_by_price()
-#     price_stocks = {}
-#     for price in prices:
-#         stocks = get_stocks_by_sector(price)
-#         price = price_stocks(price)
-        
-#     # return render_template('price.html',user = current_user, price_stocks=price_stocks)
-    
-
-# print(render_price())

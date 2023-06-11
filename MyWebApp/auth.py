@@ -1,8 +1,7 @@
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask_login import login_user,  login_required , logout_user, current_user, LoginManager
-# from models import User, Notes
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user,  login_required , logout_user, current_user
+from werkzeug.security import generate_password_hash
 from db_manager import db_manager
 from User import User
 auth = Blueprint('auth',__name__)
@@ -66,8 +65,3 @@ def sign_up():
                 flash('Passwords do not match', category = 'error')
                 return redirect(url_for('auth.sign_up'))
     return  render_template("signup.html", user = current_user)
-
-
-
-
-## Could have ; password safety 

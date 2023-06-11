@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, session, request, flash, redirect, url_for
+from flask import Blueprint, render_template
 import yfinance as yf
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask_login import login_required, current_user
 from db_manager import db_manager
 
 from datetime import datetime

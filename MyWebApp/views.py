@@ -1,11 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask_login import current_user
 from db_manager import db_manager
 
 views = Blueprint('views',__name__)
 
-# Das hier ist die hauptseite, Der Route node des Programs
-# Quasi ist das die frontseite der Homepage
 @views.route('/home')
 def home():
     news = print_news()
@@ -36,9 +34,7 @@ def make_winners():
             win_list.append(favorite_count)
     return win_list[:5]
 
-from yfinance import Ticker
 import requests
-import finnhub
 
 api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn40"
 

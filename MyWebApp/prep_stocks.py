@@ -49,5 +49,3 @@ def put_into_db():
             future.result()
 
     print("All stocks inserted into db")
-
-

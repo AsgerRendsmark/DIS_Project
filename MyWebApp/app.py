@@ -13,7 +13,6 @@ from prep_stocks import put_into_db
 from stock_info import put_info_into_db
 from threading import Thread
 from ratings import rate 
-import time
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
 

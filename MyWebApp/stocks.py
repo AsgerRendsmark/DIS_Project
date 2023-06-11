@@ -1,15 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask_login import login_required, current_user
 from db_manager import db_manager
-import requests
-#from yahoofinance import BalanceSheet,HistoricalPrices
-from UserOperations import UserOperations
-from stock_hist import hist
 from prep_stocks import put_into_db
 stock = Blueprint('stock', __name__)
 
-# finnhub_client = finnhub.Client(api_key="chjka21r01qh5480hn3gchjka21r01qh5480hn40")
 def render_stocks():
     
     cur = db_manager.get_cursor()
@@ -26,9 +20,6 @@ def update_db():
     result = put_into_db()
     return result
 
-###########
-# refactor#
-###########
 @stock.route('/stocks', methods=['GET', 'POST'])
 @login_required
 def render_stocks_from_db():
@@ -77,5 +68,3 @@ def render_stocks_from_db():
 
     
     return render_stocks()
-
-

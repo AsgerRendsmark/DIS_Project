@@ -2,7 +2,6 @@ from User import User
 from stock_class import Stock
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_manager import db_manager
-from flask_login import login_manager
 
 
 class UserOperations:

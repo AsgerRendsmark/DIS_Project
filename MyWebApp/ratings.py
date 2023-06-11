@@ -1,11 +1,8 @@
-import yfinance as yf
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask_login import current_user
 from db_manager import db_manager
 
-from yfinance import Ticker
-import requests
 rate = Blueprint('rate', __name__)
 
 

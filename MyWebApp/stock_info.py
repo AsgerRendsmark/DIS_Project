@@ -1,12 +1,8 @@
-import yfinance as yf
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request
 
-from flask_login import login_user,  login_required , logout_user, current_user
+from flask_login import login_required, current_user
 from db_manager import db_manager
-from UserOperations import UserOperations
-import pandas as pd
 from yfinance import Ticker
-from ratings import rate, fetch_posts, post_ratings
 info = Blueprint('info', __name__)
 
 def get_stock_info(ticker):
@@ -60,5 +56,3 @@ def render_info_from_db(name):
 
 
     return render_template("info.html", user=current_user, stock_info=stock_info,name = name)
-
-
